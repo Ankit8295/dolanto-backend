@@ -1,31 +1,28 @@
+import dbConn from "@/database/dbConnect";
 import { NextResponse } from "next/server";
-import prisma from "../../../lib/prisma";
 
 interface RequestBody {
-  name: string;
-  email: string;
-  image: string;
+  title: string;
 }
 
 export async function POST(request: Request) {
-  const { email, image, name } = (await request.json()) as RequestBody;
+  const { title } = (await request.json()) as RequestBody;
 
-  const post = await prisma.post.create({
-    data: {
-      name,
-      email,
-      image,
-    },
-  });
-
-  if (post) {
+  try {
+    const newPost = await dbConn.query(
+      "INSERT INTO homepage (title) VALUES($1)",
+      [title]
+    );
+    console.log(newPost);
     return NextResponse.json({
       status: 200,
-      data: post,
+      data: newPost,
+    });
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({
+      status: 500,
+      reason: "something went wrong",
     });
   }
-  return NextResponse.json({
-    status: 500,
-    reason: "something went wrong",
-  });
 }

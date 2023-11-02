@@ -1,16 +1,18 @@
+import dbConn from "@/database/dbConnect";
 import { NextResponse } from "next/server";
-import prisma from "../../../lib/prisma";
-
 export async function GET(request: Request) {
-  const post = await prisma.post.findMany({});
-  if (post) {
+  try {
+    const allData = await dbConn.query("SELECT * FROM homepage");
+    console.log(allData);
     return NextResponse.json({
       status: 200,
-      data: post,
+      data: allData.fields,
+    });
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({
+      status: 500,
+      reason: "something went wrong",
     });
   }
-  return NextResponse.json({
-    status: 500,
-    reason: "something went wrong",
-  });
 }
