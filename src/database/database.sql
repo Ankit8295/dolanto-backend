@@ -1,6 +1,8 @@
 CREATE DATABASE dolantoadmin;
 
-CREATE TABLE homepage(
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(500)
-    );
+-- homepage card table
+CREATE TABLE homepageCards (
+  id Int NOT NULL PRIMARY KEY, day VARCHAR, 
+  card_id VARCHAR(1),
+  cardDATA JSONB
+);

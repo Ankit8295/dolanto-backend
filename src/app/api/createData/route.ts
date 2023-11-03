@@ -2,18 +2,17 @@ import dbConn from "@/database/dbConnect";
 import { NextResponse } from "next/server";
 
 interface RequestBody {
-  title: string;
+  card_id: string;
+  cardData: any;
 }
 
-export async function POST(request: Request) {
-  const { title } = (await request.json()) as RequestBody;
-
+export async function PATCH(request: Request) {
+  const { cardData, card_id } = (await request.json()) as RequestBody;
   try {
     const newPost = await dbConn.query(
-      "INSERT INTO homepage (title) VALUES($1)",
-      [title]
+      `UPDATE homepageCards SET cardData = $1 WHERE card_id = $2`,
+      [cardData, card_id]
     );
-    console.log(newPost);
     return NextResponse.json({
       status: 200,
       data: newPost,
@@ -26,3 +25,8 @@ export async function POST(request: Request) {
     });
   }
 }
+
+// const newPost = await dbConn.query(
+//   "INSERT INTO homepageCards(id, day, card_id, cardDATA) VALUES($1, $2, $3, $4)",
+//   [6, Date.now(), card_id, cardData]
+// );
