@@ -8,8 +8,8 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const region = "ap-south-1";
 const bucketName = "dolanto";
-const accessKeyId = "AKIAZ23OMSXY5DO7EJFP";
-const secretAccessKey = "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";
+const accessKeyId = "A";
+const secretAccessKey = "gg"
 
 const s3 = new S3Client({
   region,
