@@ -3,7 +3,7 @@ import { z } from "zod";
 export const cardSchema = z.object({
   title: z.string(),
   description: z.string(),
-  image: z.string(),
+  image: z.any().transform((files) => files[0]),
 });
 
 // export const homePageFormSchema = z.object({

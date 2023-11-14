@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Link href={"/dashboard/homepage"}>HomePage</Link>
         <Link href={"/dashboard/about-us"}>About Us</Link>
       </div>
-      <div className="grow  h-full">{children}</div>
+      <div className="w-5/6 h-full">{children}</div>
     </div>
   );
 }

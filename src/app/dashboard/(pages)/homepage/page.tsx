@@ -1,81 +1,42 @@
-"use client";
-import { createData, getData } from "@/lib/query";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { FormEvent, useRef } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CardSchema,
-  cardSchema,
-} from "@/components/forms/schema/HomePageSchema";
-import FormInput from "@/components/forms/compnents/formInput";
+import HomePageCardsForm from "@/components/forms/HomePageCardsForm";
+import HomepageImageCard from "./HomepageImageCard";
 
-export default function Page() {
-  const nameRef = useRef<HTMLInputElement | null>(null);
-  const { mutate } = useMutation({ mutationFn: createData });
-  const { data } = useQuery({
-    queryKey: ["homepageData"],
-    queryFn: () => getData(),
-    refetchOnMount: true,
+async function getHomepageData() {
+  console.log("Fetching-homepage ");
+  const res = await fetch("http://localhost:3000/api/get-homepage", {
+    cache: "no-store",
+    next: {
+      tags: ["homepagecards"],
+    },
   });
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<CardSchema>({
-    resolver: zodResolver(cardSchema),
-  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
 
-  const submitForm: SubmitHandler<CardSchema> = async (data) => {
-    const finalData = {
-      card_id: "A",
-      cardData: data,
-    };
-    mutate(finalData);
-  };
+export default async function page() {
+  const data = await getHomepageData();
 
   return (
-    <div className="w-1/3 border-r h-full flex items-center p-5 overflow-y-scroll     ">
-      <form
-        className="border border-[#001942]  w-full text-black flex flex-col gap-10 p-10 rounded-3xl "
-        onSubmit={handleSubmit(submitForm)}
-      >
-        <FormInput
-          type="text"
-          register={register}
-          registerValue={`title`}
-          registerReq={true}
-          placeholder="Title"
-          // error={errors.password?.message}
-        />
-        <FormInput
-          type="text"
-          register={register}
-          registerValue={`description`}
-          registerReq={true}
-          placeholder="Description"
-          // error={errors.password?.message}
-        />
-        <FormInput
-          type="text"
-          register={register}
-          registerValue={`image`}
-          registerReq={true}
-          placeholder="imagestr"
-          // error={errors.password?.message}
-        />
-        {/* <input
-          type="file"
-          accept="image/*"
-          {...register(`image`, {
-            required: true,
-          })}
-        /> */}
-        <button type="submit" className="text-white p-2 bg-[#001942]">
-          Save
-        </button>
-      </form>
+    <div className="w-full  border-r h-full flex flex-col gap-2 items-center p-5 overflow-y-scroll">
+      {data.data.map((card: any) => (
+        <details
+          className="w-full border p-3 rounded-lg shadow"
+          key={card.result.card_id}
+        >
+          <summary className="pb-4 cursor-pointer">
+            Card {card.result.card_id}
+          </summary>
+          <div className="w-full  grid grid-cols-2 gap-x-10 items-start justify-items-start">
+            <HomepageImageCard cardData={card.result.cardData} />
+            <HomePageCardsForm
+              cardData={card.result.cardData}
+              card_id={card.result.card_id}
+            />
+          </div>
+        </details>
+      ))}
     </div>
   );
 }
