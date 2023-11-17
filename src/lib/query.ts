@@ -1,21 +1,26 @@
-import axios from "axios";
+const url = process.env.NEXT_URL;
 
-export async function getData() {
-  const res = await axios({
-    url: `http://localhost:3000/api/getData`,
-    method: "GET",
-  });
-  return res.data;
-}
-export async function createData(data: FormData) {
-  console.log(data);
-  const res = await axios({
-    url: `http://localhost:3000/api/update-homepage`,
-    method: "PATCH",
-    headers: {
-      "Content-Type": "multipart/form-data",
+export async function getHomepageData() {
+  const res = await fetch(`${process.env.NEXT_URL}/api/get-homepage`, {
+    cache: "no-store",
+    next: {
+      tags: ["homepagecards"],
     },
-    data: data,
   });
-  return res.data;
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
+
+export async function getJobsData() {
+  const res = await fetch(`${process.env.NEXT_URL}/api/get-jobs`, {
+    next: {
+      tags: ["jobs"],
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
 }

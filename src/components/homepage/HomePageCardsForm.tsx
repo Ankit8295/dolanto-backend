@@ -4,7 +4,7 @@ type Props = {
   cardData: {
     title: string;
     description: string;
-    image: string;
+    image_url: string;
   };
   card_id: string;
 };
@@ -26,7 +26,7 @@ export default function HomePageCardsForm({ cardData, card_id }: Props) {
       <input
         type="text"
         name="prevImageUrl"
-        defaultValue={cardData.image}
+        defaultValue={cardData.image_url}
         readOnly
         className="p-2 hidden border border-black/60 w-full  disabled:cursor-not-allowed rounded-lg disabled:blur-[.05rem]"
         placeholder="id"
@@ -48,7 +48,6 @@ export default function HomePageCardsForm({ cardData, card_id }: Props) {
       <input
         type="file"
         name="image"
-        defaultValue={cardData.image}
         className="p-2 border border-black/60 w-full rounded-lg  disabled:cursor-not-allowed disabled:blur-[.05rem]"
       />
       <div className="flex gap-5 items-center justify-center">

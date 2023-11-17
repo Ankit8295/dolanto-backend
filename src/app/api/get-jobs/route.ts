@@ -2,9 +2,7 @@ import dbConn from "@/database/dbConnect";
 import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   try {
-    const allData = await dbConn.query(
-      `SELECT * FROM homepagedetails ORDER BY id`
-    );
+    const allData = await dbConn.query(`SELECT * FROM jobs ORDER BY id`);
 
     return NextResponse.json({
       status: 200,

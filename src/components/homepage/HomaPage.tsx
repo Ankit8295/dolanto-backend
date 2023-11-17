@@ -1,7 +1,7 @@
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import React from "react";
-import HomePageCardsForm from "../forms/HomePageCardsForm";
-import HomepageImageCard from "@/app/dashboard/(pages)/homepage/HomepageImageCard";
+import HomePageCardsForm from "./HomePageCardsForm";
+import HomepageImageCard from "@/components/homepage/HomepageImageCard";
 
 type Props = {
   data: any;

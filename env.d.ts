@@ -5,6 +5,10 @@ namespace NodeJS {
     PGSQL_DATABASE: string;
     PGSQL_USER: string;
     PGSQL_PASSWORD: string;
-    BASE_URL: string;
+    NEXT_URL: string;
+    region: string;
+    bucketName: string;
+    accessKeyId: string;
+    secretAccessKey: string;
   }
 }

@@ -6,7 +6,7 @@ type Props = {
   cardData: {
     title: string;
     description: string;
-    image: string;
+    image_url: string;
   };
 };
 
@@ -15,7 +15,7 @@ export default function HomepageImageCard({ cardData }: Props) {
     <div className="w-full flex justify-start">
       <div className="w-[80%] rounded-3xl  flex flex-col p-5 gap-1 border bg-blue-700 text-white">
         <img
-          src={cardData.image}
+          src={cardData.image_url}
           alt={"image"}
           loading="lazy"
           width={500}
